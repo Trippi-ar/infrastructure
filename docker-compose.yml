@@ -1,0 +1,103 @@
+services:
+  users_db:
+    image: postgres:alpine
+    env_file: 
+      - .env 
+    environment:
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD_USERS}
+      POSTGRES_USER: ${POSTGRES_USER_USERS}
+      POSTGRES_DB: ${POSTGRES_DB_USERS}
+    expose:
+      - 5432
+
+  publications_db:
+    image: postgres:alpine
+    env_file: 
+      - .env     
+    environment:
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD_PUBLICATIONS}
+      POSTGRES_USER: ${POSTGRES_USER_PUBLICATIONS}
+      POSTGRES_DB: ${POSTGRES_DB_PUBLICATIONS}
+    expose:
+      - 5432
+
+  booking_db:
+    env_file: 
+      - .env   
+    image: postgres:alpine
+    environment:
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD_BOOKING}
+      POSTGRES_USER: ${POSTGRES_USER_BOOKING}
+      POSTGRES_DB: ${POSTGRES_DB_BOOKING}
+    expose:
+      - 5432
+
+
+
+  users_ms:
+    restart: always
+    env_file: 
+      - .env 
+    environment:
+      DATABASE_URI_USERS: ${DATABASE_URI_USERS}
+      SECRET_KEY: ${SECRET_KEY}
+      ALGORITHM: ${ALGORITHM}
+      ACCESS_TOKEN_EXPIRE_MINUTES: ${ACCESS_TOKEN_EXPIRE_MINUTES}
+      SMTP_SERVER: ${SMTP_SERVER}
+      SMTP_PORT: ${SMTP_PORT}
+      EMAIL_ADDRESS: ${EMAIL_ADDRESS}
+      PASSWORD_EMAIL: ${PASSWORD_EMAIL}
+      SECRET_KEY_EMAIL: ${SECRET_KEY_EMAIL}
+      ALGORITHM_EMAIL: ${ALGORITHM_EMAIL}
+    build: ../users   
+    command: ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]
+    ports:
+      - 8001:8000
+    depends_on:
+      - users_db
+
+
+  publications_ms:
+    restart: always
+    env_file: 
+      - .env
+    environment:
+      DATABASE_URI_USERS: ${DATABASE_URI_USERS}
+      SECRET_KEY: ${SECRET_KEY}
+      ALGORITHM: ${ALGORITHM}
+      ACCESS_TOKEN_EXPIRE_MINUTES: ${ACCESS_TOKEN_EXPIRE_MINUTES}
+      SMTP_SERVER: ${SMTP_SERVER}
+      SMTP_PORT: ${SMTP_PORT}
+      EMAIL_ADDRESS: ${EMAIL_ADDRESS}
+      PASSWORD_EMAIL: ${PASSWORD_EMAIL}
+      SECRET_KEY_EMAIL: ${SECRET_KEY_EMAIL}
+      ALGORITHM_EMAIL: ${ALGORITHM_EMAIL}     
+    build: ../publications
+    command: ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]
+    ports:
+      - 8002:8000
+    depends_on:
+      - publications_db
+
+
+  booking_ms:
+    restart: always
+    env_file: 
+      - .env  
+    environment:
+      DATABASE_URI_USERS: ${DATABASE_URI_USERS}
+      SECRET_KEY: ${SECRET_KEY}
+      ALGORITHM: ${ALGORITHM}
+      ACCESS_TOKEN_EXPIRE_MINUTES: ${ACCESS_TOKEN_EXPIRE_MINUTES}
+      SMTP_SERVER: ${SMTP_SERVER}
+      SMTP_PORT: ${SMTP_PORT}
+      EMAIL_ADDRESS: ${EMAIL_ADDRESS}
+      PASSWORD_EMAIL: ${PASSWORD_EMAIL}
+      SECRET_KEY_EMAIL: ${SECRET_KEY_EMAIL}
+      ALGORITHM_EMAIL: ${ALGORITHM_EMAIL}        
+    build: ../booking
+    command: ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]
+    ports:
+      - 8003:8000
+    depends_on:
+      - booking_db
