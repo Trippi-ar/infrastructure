@@ -8,7 +8,6 @@ Para poder levantar el proyecto hacer falta tener instalado docker y docker-comp
 sudo pacman -S docker
 sudo pacman -S python-pip
 pip install docker-compose
-
 ```
 ## Pasos para levantar el projecto
 
