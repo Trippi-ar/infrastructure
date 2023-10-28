@@ -40,7 +40,7 @@ nano .env
 
 5. Hacer un docker-compose
 ```
-docker-compose --no-cache
+docker-compose build --no-cache
 ```
 
 6. Levantarlo
