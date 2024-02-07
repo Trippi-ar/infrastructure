@@ -6,7 +6,6 @@ Para poder levantar el proyecto hacer falta tener instalado docker y docker-comp
 
 ```
 sudo pacman -S docker
-sudo pacman -S python-pip
 pip install docker-compose
 ```
 ## Pasos para levantar el projecto
@@ -21,10 +20,8 @@ cd app
 2. Clonar los repositorios.  
 ```
 git clone https://github.com/Trippi-ar/infrastructure.git
-git clone https://github.com/Trippi-ar/booking.git
 git clone https://github.com/Trippi-ar/publications.git
-git clone https://github.com/Trippi-ar/users.git
-git clone https://github.com/Trippi-ar/frontend-app.git
+git clone https://github.com/Trippi-ar/frontend.git
 ```  
 
 3. Entrar a la carpeta de infrastructure
@@ -51,12 +48,8 @@ docker-compose up
 7. Para acceder ingresar a las respectivas urls.
 
 ```
-0.0.0.0:8001/docs
+localhost:8001/docs
 
-0.0.0.0:8002/docs
-
-.
-.
-.
+localhost:8003/docs
 
 ```
